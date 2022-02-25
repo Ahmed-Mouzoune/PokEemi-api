@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "inventaires",
+  "info": {
+    "singularName": "inventaire",
+    "pluralName": "inventaires",
+    "displayName": "inventaire"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "objets": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::objet.objet"
+    }
+  }
+}

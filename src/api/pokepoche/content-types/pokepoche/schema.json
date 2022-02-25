@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pokepoches",
+  "info": {
+    "singularName": "pokepoche",
+    "pluralName": "pokepoches",
+    "displayName": "pokepoche"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "pokemon": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pokemon.pokemon"
+    }
+  }
+}
