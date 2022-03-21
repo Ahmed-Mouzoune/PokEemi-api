@@ -1,0 +1,407 @@
+openapi: 3.0.1
+info:
+  title: Pokemon Api
+  description: Api permettant de jouer à pokemon
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: ahmed.mouzoune@eemi.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 3.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+tags:
+- name: avatar
+  description: Tout sur les Avatars
+    
+- name: pokemon
+  description: Tout sur les Pokemon
+paths:
+  /api/pokemons:
+    get:
+      tags:
+      - "pokemon"
+      summary: "Liste tout les pokemon du jeu"
+      description: "Information sur le pokemon"
+      operationId: "findAllPokemon"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid status value"
+    post:
+      tags:
+      - "pokemon"
+      summary: "Ajoute un nouveau pokémon dans le jeu"
+      description: ""
+      operationId: "addPet"
+      requestBody:
+        description: Nouveau nom de l'avatar
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Attaque'
+        required: true
+      responses:
+        "200":
+          description: "Pokemon ajouté avec succès"
+        "405":
+          description: "Invalid input"
+  /api/pokemons/{id}:
+    get:
+      tags:
+      - pokemon
+      summary: Récupérer un pokemon 
+      description: Récupérer un pokemon à partir de son id
+      operationId: getPokemonById
+      parameters:
+      - name: id
+        in: path
+        description: 'The id that needs to be fetched. Use 1 for testing. '
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Pokemon récupérer avec succès
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+        400:
+          description: Id invalide
+          content: {}
+        404:
+          description: Pokemon non trouver
+          content: {}
+    put:
+      tags:
+      - pokemon
+      summary: Modifier un Pokemon
+      description: This can only be done by the logged in pokemon.
+      operationId: updatePokemonByID
+      parameters:
+      - name: id
+        in: path
+        description: pokemon qui a besoin d'être modifier
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Updated pokemon object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Pokemon'
+        required: true
+      responses:
+        200:
+          description: Pokemon modifié avec succès
+          content: {}
+        400:
+          description: Id invalide
+          content: {}
+        404:
+          description: Pokemon non trouver
+          content: {}
+    delete:
+      tags:
+      - pokemon
+      summary: Supprimer un pokemon
+      description: This can only be done by the logged in pokemon.
+      operationId: deletePokemonById
+      parameters:
+      - name: id
+        in: path
+        description: Le Pokemon a besoin d'être supprimer
+        required: true
+        schema:
+          $ref: '#/components/schemas/Pokemon'
+      responses:
+        200:
+          description: Pokemon supprimé avec succès
+          content: {}
+        400:
+          description: Id invalide
+          content: {}
+        404:
+          description: Pokemon non trouver
+          content: {}
+  /api/avatars:
+    post:
+      tags:
+      - avatar
+      summary: Ajoute un nouvel avatar
+      operationId: addAvatar
+      requestBody:
+        description: Objet avatar pour ajouter l'avatar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Avatar'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Avatar'
+        required: true
+      responses:
+        200:
+          description: Avatar ajouté
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+    put:
+      tags:
+      - avatar
+      summary: Modifier nom avatar
+      description: Uniquement lorsque l'avatar est connectée
+      requestBody:
+        description: Nouveau nom de l'avatar
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Avatar'
+        required: true
+      responses:
+        200:
+          description: Avatar modified with success
+          content: {}
+        400:
+          description: Invalid id supplied
+          content: {}
+        404:
+          description: Student not found
+          content: {}
+  /api/avatars/attack/{id}:
+    post:
+      tags:
+      - avatar
+      summary: Permet de lancer une attaque avec son pokemon
+      operationId: attackPokemonId
+      parameters:
+      - name: id
+        in: path
+        description: student that need to be updated
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Id de l'attaque du pokemon
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Attaque'
+        required: true
+      responses:
+        200:
+          description: Attaque lancé
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+  /api/inventaires:
+    get:
+      tags:
+      - "inventaire"
+      summary: "Liste tout les objets de l'inventaire"
+      description: "Liste tout les objets de l'inventaire"
+      operationId: "getInventory"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid status value"
+    post:
+      tags:
+      - "inventaire"
+      summary: "Ajoute un nouvelle objet dans l'inventaire"
+      description: ""
+      operationId: "addObject"
+      requestBody:
+        description: Objet objet pour l'ajouter à l'inventaire
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Objet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Objet'
+        required: true
+      responses:
+        "405":
+          description: "Invalid input"
+  /api/pokepoches:
+    get:
+      tags:
+      - "pokepoche"
+      summary: "Liste tout les pokemon dans la pokepoche"
+      description: "Information sur la pokepoche"
+      operationId: "findAllPokemonInPokepoche"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid status value"
+    post:
+      tags:
+      - "pokepoche"
+      summary: Ajouter un pokemon dans la pokepoche
+      operationId: addInPokepoche
+      requestBody:
+        description: Tableau pokepoche pour ajouter le pokemon
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pokepoche'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pokepoche'
+        required: true
+      responses:
+        200:
+          description: Pokemon ajouté à la pokepoche
+          content: {}
+        405:
+          description: Ajout invalide
+          content: {}
+    put:
+      tags:
+      - "pokepoche"
+      summary: Modifier l'emplacement pokemon dans la pokepoche
+      description: Uniquement lorsque le pokemon est dans la pokepoche
+      requestBody:
+        description: Nouveau emplacement du pokemon
+        content:
+          '/':
+            schema:
+              $ref: '#/components/schemas/Pokepoche'
+        required: true
+      responses:
+        200:
+          description: Pokepoche modifié avec succès
+          content: {}
+        404:
+          description: Emplacement non disponible
+          content: {}
+    delete:
+      tags:
+      - pokepoche
+      summary: Supprimer un pokemon
+      description: This can only be done by the logged in pokemon.
+      operationId: deletePokemonByIndex
+      responses:
+        200:
+          description: Pokemon supprimé avec succès
+          content: {}
+        400:
+          description: Id invalide
+          content: {}
+        404:
+          description: Pokemon non trouver
+          content: {}
+components:
+  schemas:
+    Objet:
+      required:
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: pokeball
+        type:
+          type: string
+          enum:
+          - soins
+          - utilisable
+          - badge
+    Avatar:
+      required:
+      - name
+      - age
+      - sexe
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: toto
+        age:
+          type: integer
+          example: 10
+        sexe:
+          type: string
+          enum:
+          - masculin
+          - féminin
+      xml:
+        name: Student
+    Pokemon:
+      required:
+      - name
+      - type
+      - niveau
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: toto
+        niveau:
+          type: integer
+          example: 5
+        type:
+          type: string
+          enum:
+          - Eau
+          - Feu
+          - Plante
+    Pokepoche:
+      type: array
+      items: 
+        $ref: '#/components/schemas/Pokemon'
+    Attaque:
+      type: "object"
+      required:
+      - "name"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        stat:
+          type: "integer"
+        type:
+          type: "string"
+          enum: 
+          - "plante"
+          - "feu"
+          - "eau"
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
